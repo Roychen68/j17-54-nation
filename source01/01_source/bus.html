@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台北101專車接駁系統</title>
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="shadow-lg w-100" id="nav-bar">
+        <div class="logo" id="logo">
+            <img src="../01_01/01_LOGO.png" alt="">
+            <h1><span style="color: rgb(68, 180, 20);">台北101</span><span style="color: white;">專車接駁</span><span style="color: rgb(68, 180, 20);">系統</span>
+            </h1>
+        </div>
+        <div class="btns">
+            <button class="btn btn-secondary" id="login-button" onclick="admin()">系統管理</button>
+            <button class="btn btn-danger" id="logout-button">登出</button>
+        </div>
+    </header>
+    <div class="card shadow" id="table">
+        <div class="card-header">
+            <a href="bus.html" class="btn btn-info" id="bus-link">接駁車管理</a>
+            <a href="station.html" class="btn btn-info" id="-link">站點管理</a>
+            <a href="basic.php" class="btn btn-info" id="-link">表單管理</a>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="width: 35%;">車牌</th>
+                        <th style="width: 35%;">已行駛時間</th>
+                        <th style="width: 30%;">操作 <button class="btn btn-success" id="add-button" onclick="add()">新增</button></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
+<script src="jquery.js"></script>
+<script src="bootstrap.js"></script>
+<script src="background.js"></script>
+<script>
+    check()
+    function check() {
+        $.get("api/session.php", function (res) {
+            if (res == true) {
+                $("#logout-button").show()
+            } else {
+                $("#logout-button").hide()
+            }
+        })
+    }
+    function logout() {
+        $.post("api/logout.php", function () {
+            location.href = "index.html"
+        })
+    }
+    get()
+    function add() {
+        $("tbody").html(`
+            <tr id="add">
+                <th><input type="text" name="bus-plate" class="form-control"></th>
+                <th><input type="text" name="runtime" class="form-control"></th>
+                <th><button class="btn btn-success" id="add-bus-button">新增</button></th>
+            </tr>
+        `)
+    }
+    function insert() {
+        addData = {
+            plate: $("input[name='bus-plate']").val(),
+            time: $("input[name='bus-runtime']").val()
+        }
+    }
+    function get() {
+        $.get("api/get.php", { action: "bus" }, function (res) {
+            let data = JSON.parse(res)
+            for (let i = 0; i < array.data; i++) {
+                $("tbody").append(`
+                <tr>
+                    <th class="bus-plate">${data[i].plate}</th>
+                    <th class="bus-runtime">${data[i].time}</th>
+                    <th>
+                        <button class="btn btn-warning edit-bus-button" data-bus-plate="" onclick="edit()">編輯</button>
+                        <button class="btn btn-danger delete-bus-button" data-bus-plate="" onclick="del()"></button>
+                    </th>
+                </tr>
+                `)
+            }
+        })
+    }
+</script>

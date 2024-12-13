@@ -1,0 +1,69 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background: url(../01_01/f15f7b57ab31c217f471c6712a2654e0-taipei-101.jpg);
+    background-size: 115%;
+    background-position: center;
+    transition: 0.1s;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(rgba(0,0,0,0),rgba(0,0,0,0.8));
+    pointer-events: none;
+    z-index: -1;
+}
+header{
+    display: flex;
+    height: 100px;
+    justify-content: space-between;
+    background: rgba(255,255,255,0.1);
+}
+header div.logo{
+    display: flex;
+    height: 90px;
+    padding: 5px 0px 5px 30px;
+    width: 730px;
+}
+div.logo img{
+    height: 90px;
+}
+div.logo h1{
+    line-height: 90px;
+}
+div.btns{
+    padding: 25px;
+    height: 50px;
+    width: 300px;
+    justify-content: space-around;
+}
+div.card#table{
+    width: 80%;
+    max-height: 750px;
+    margin: 100px auto 0px auto;
+    transition: 500ms;
+    scale: 0.98;
+}
+div.card#table:hover{
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+    scale: 1.0;
+}
+div.card{
+    background: rgba(255,255,255,0.1);
+}
+input.form-control{
+    background: rgba(0,0,0,0.5);
+}
+input.form-control:focus{
+    background: rgba(255,255,255,0.6);
+}

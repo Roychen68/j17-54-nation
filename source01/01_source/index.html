@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台北101專車接駁系統</title>
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="shadow-lg w-100" id="nav-bar">
+        <div class="logo" id="logo">
+            <img src="../01_01/01_LOGO.png" alt="">
+            <h1><span style="color: rgb(68, 180, 20);">台北101</span>專車接駁<span style="color: rgb(68, 180, 20);">系統</span></h1>
+        </div>
+        <div class="btns">
+            <button class="btn btn-secondary" id="login-button" onclick="admin()">系統管理</button>
+            <button class="btn btn-danger" id="logout-button">登出</button>
+        </div>
+    </header>
+    <div class="modal fade" id="login">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1>台北101專車接駁系統-系統管理</h1>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="username">帳號:</label>
+                        <input type="text" name="username" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">密碼:</label>
+                        <input type="text" name="password" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="captcha">驗證碼: <span id="captha"></span></label>
+                        <input type="text" name="captcha" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-info" id="regenerate-captha-button" onclick="veri()">刷新驗證碼</button>
+                    <button class="btn btn-primary" id="login-button" onclick="login()">登入</button>
+                    <button class="btn btn-secondary" id="" onclick="$('#login').modal('hide')">關閉</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="jquery.js"></script>
+<script src="bootstrap.js"></script>
+<script src="background.js"></script>
+<script>
+    check()
+    let captha
+    veri()
+    function admin() {
+        $.get("api/session.php",function (res) {
+            if (res==true) {
+                location.href = "bus.html";
+            } else {
+                $("#login").modal("show");
+            }
+        })
+    }
+    function veri() {
+        $.get("api/veri.php",function (res) {
+            captha = res
+            $("#captha").text(captha)
+        })
+    }
+    function login() {
+        let formData = {
+            mail: $("input[name='username']").val(),
+            password: $("input[name='password']").val(),
+            captha: $("input[name='captcha']").val(),
+        }
+        if (formData.captha == captha) {
+            $.post("api/login.php",formData,function (res) {
+                if (res == true) {
+                    alert()
+                    location.reload()
+                } else {
+                    alert("帳號密碼錯誤")
+                }
+            })
+        } else {
+            alert("驗證碼錯誤")
+        }
+    }
+    function check() {
+        $.get("api/session.php",function (res) {
+            if (res == true) {
+                $("#logout-button").show()
+            } else {
+                $("#logout-button").hide()
+            }
+        })
+    }
+    function logout() {
+        $.post("api/logout.php",function () {
+            location.href = "index.html"
+        })
+    }
+</script>
