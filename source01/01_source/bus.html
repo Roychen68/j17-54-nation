@@ -13,7 +13,8 @@
     <header class="shadow-lg w-100" id="nav-bar">
         <div class="logo" id="logo">
             <img src="../01_01/01_LOGO.png" alt="">
-            <h1><span style="color: rgb(68, 180, 20);">台北101</span><span style="color: white;">專車接駁</span><span style="color: rgb(68, 180, 20);">系統</span>
+            <h1><span style="color: rgb(68, 180, 20);">台北101</span><span style="color: white;">專車接駁</span><span
+                    style="color: rgb(68, 180, 20);">系統</span>
             </h1>
         </div>
         <div class="btns">
@@ -33,11 +34,12 @@
                     <tr>
                         <th style="width: 35%;">車牌</th>
                         <th style="width: 35%;">已行駛時間</th>
-                        <th style="width: 30%;">操作 <button class="btn btn-success" id="add-button" onclick="add()">新增</button></th>
+                        <th style="width: 30%;">操作 <button class="btn btn-success" id="add-button"
+                                onclick="add()">新增</button></th>
                     </tr>
                 </thead>
                 <tbody>
-                    
+
                 </tbody>
             </table>
         </div>
@@ -49,6 +51,9 @@
 <script src="bootstrap.js"></script>
 <script src="background.js"></script>
 <script>
+    let data
+    let buses
+
     check()
     function check() {
         $.get("api/session.php", function (res) {
@@ -66,35 +71,54 @@
     }
     get()
     function add() {
-        $("tbody").html(`
+        if ($("#add").length < 1) {
+            $("tbody").append(`
             <tr id="add">
                 <th><input type="text" name="bus-plate" class="form-control"></th>
-                <th><input type="text" name="runtime" class="form-control"></th>
-                <th><button class="btn btn-success" id="add-bus-button">新增</button></th>
-            </tr>
-        `)
+                <th><input type="number" min="0" name="bus-runtime" class="form-control"></th>
+                <th>
+                    <button class="btn btn-success" id="add-bus-button" onclick="insert()">新增</button>
+                    <button class="btn btn-secondary" id="" onclick="cancel()">回上頁</button>
+                    </th>
+                    </tr>
+                    `)
+        }
     }
     function insert() {
-        addData = {
+        let addData = {
             plate: $("input[name='bus-plate']").val(),
-            time: $("input[name='bus-runtime']").val()
+            time: $("input[name='bus-runtime']").val(),
+            action: "bus"
+        }
+        if (addData.time.length > 0 || addData.time < 0) {
+            $.post("api/add.php", addData, function () {
+                alert("資料以新增")
+                location.reload()
+            })
+        } else {
+            alert("請輸入正確數值")
         }
     }
     function get() {
         $.get("api/get.php", { action: "bus" }, function (res) {
-            let data = JSON.parse(res)
-            for (let i = 0; i < array.data; i++) {
-                $("tbody").append(`
-                <tr>
+            data = JSON.parse(res)
+            for (let i = 0; i < data.length; i++) {
+                buses += `
+                        <tr>
                     <th class="bus-plate">${data[i].plate}</th>
                     <th class="bus-runtime">${data[i].time}</th>
                     <th>
-                        <button class="btn btn-warning edit-bus-button" data-bus-plate="" onclick="edit()">編輯</button>
-                        <button class="btn btn-danger delete-bus-button" data-bus-plate="" onclick="del()"></button>
+                        <button class="btn btn-warning edit-bus-button" data-bus-plate="${data[i].plate}" onclick="edit(${data[i].id})">編輯</button>
+                        <button class="btn btn-danger delete-bus-button" data-bus-plate="${data[i].plate}" onclick="del(${data[i].id})">刪除</button>
                     </th>
                 </tr>
-                `)
+                `
+                $("tbody").html(buses)
             }
         })
+    }
+    function del(id) {
+        $.post()
+        var check = confirm("確認刪除" + { data } + "?")
     }
 </script>

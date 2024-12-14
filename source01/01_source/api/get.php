@@ -1,15 +1,12 @@
 <?php
 include "db.php";
 
-$action = $_POST['action'];
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
+    $action = $_GET['action'];
     switch ($action) {
-        case 'get':
-            # code...
-            break;
-        
-        default:
-            # code...
+        case 'bus':
+            $buses = $pdo->query("SELECT * FROM `bus`")->fetchAll();
+            echo json_encode($buses);
             break;
     }
 } else if ($_SERVER['REQUEST_METHOD'] == "POST") {

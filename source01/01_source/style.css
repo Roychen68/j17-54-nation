@@ -48,7 +48,6 @@ div.btns{
 }
 div.card#table{
     width: 80%;
-    max-height: 750px;
     margin: 100px auto 0px auto;
     transition: 500ms;
     scale: 0.98;
@@ -62,7 +61,16 @@ div.card{
 }
 th>input.form-control{
     background: rgba(0,0,0,0.5);
+    color: white;
 }
 th>input.form-control:focus{
     background: rgba(255,255,255,0.6);
+}
+table.table{
+    color: white;
+}
+div.card-body{
+    max-height: 400px;
+    overflow: hidden;
+    overflow-y: auto;
 }
