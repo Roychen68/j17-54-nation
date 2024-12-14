@@ -7,8 +7,8 @@ $(document).ready(function() {
         var screenWidth = $(window).width();
         var screenHeight = $(window).height();
         
-        var xOffset = (mouseX / screenWidth - 30) * 7;
-        var yOffset = (mouseY / screenHeight - 60) * 7;
+        var xOffset = (mouseX / screenWidth - 0.3) * 20;
+        var yOffset = (mouseY / screenHeight - 1) * 15;     
         
         $('body').css('background-position', `${xOffset}px ${yOffset}px`);
     });

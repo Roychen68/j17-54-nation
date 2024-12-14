@@ -8,8 +8,7 @@ body, html {
 
 body {
     background: url(../01_01/f15f7b57ab31c217f471c6712a2654e0-taipei-101.jpg);
-    background-size: 115%;
-    background-position: center;
+    background-size: 100%;
     transition: 0.1s;
 }
 
@@ -61,9 +60,9 @@ div.card#table:hover{
 div.card{
     background: rgba(255,255,255,0.1);
 }
-input.form-control{
+th>input.form-control{
     background: rgba(0,0,0,0.5);
 }
-input.form-control:focus{
+th>input.form-control:focus{
     background: rgba(255,255,255,0.6);
 }
